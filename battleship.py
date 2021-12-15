@@ -95,7 +95,10 @@ Parameters: 2D list of ints ; 2D list of ints
 Returns: bool
 '''
 def checkShip(grid, ship):
-    return
+    for ships in ship:
+        if(grid[ships[0]][ships[1]] != EMPTY_UNCLICKED):
+                return False
+    return True
 
 
 '''
@@ -285,6 +288,7 @@ def runSimulation(w, h):
 if __name__ == "__main__":
     test.testEmptyGrid()
     test.testCreateShip()
+    test.testCheckShip()
     #test.week1Tests()
     ## Finally, run the simulation to test it manually ##
     #runSimulation(500, 500)
