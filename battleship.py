@@ -25,6 +25,15 @@ Parameters: dict mapping strs to values
 Returns: None
 '''
 def makeModel(data):
+    data["rows"]=10
+    data["cols"]=10
+    data["boardSize"]=500
+    data["cellSize"]=data["boardSize"]//(data["rows"])
+    data["numOfShips"]=5
+    data["computer"]=emptyGrid(data["rows"],data["cols"])
+    data["user"]=emptyGrid(data["rows"],data["cols"])
+    data["computer"]=addShips(data["computer"],data["numOfShips"])
+    data["user"]=addShips(data["user"],data["numOfShips"])
     return
 
 
@@ -293,10 +302,11 @@ def runSimulation(w, h):
 
 # This code runs the test cases to check your work
 if __name__ == "__main__":
-    test.testEmptyGrid()
-    test.testCreateShip()
-    test.testCheckShip()
-    test.testAddShips()
+    # test.testEmptyGrid()
+    # test.testCreateShip()
+    # test.testCheckShip()
+    # test.testAddShips()
+    test.testMakeModel()
     #test.week1Tests()
     ## Finally, run the simulation to test it manually ##
     #runSimulation(500, 500)
