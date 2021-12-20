@@ -150,7 +150,21 @@ Parameters: 2D list of ints
 Returns: bool
 '''
 def isVertical(ship):
-    return
+    sumX=0
+    for shipI in range(len(ship)):
+        if(shipI == 0):
+            sumX+=ship[shipI][0]
+            tempY=ship[shipI][1]
+        elif(tempY == ship[shipI][1]):
+            sumX+=ship[shipI][0]
+            tempY=ship[shipI][1]
+            continue
+        else:
+            return False
+    if(sumX%3 == 0):
+        return True
+    else:
+        return False
 
 
 '''
@@ -159,7 +173,21 @@ Parameters: 2D list of ints
 Returns: bool
 '''
 def isHorizontal(ship):
-    return
+    sumY=0
+    for shipI in range(len(ship)):
+        if(shipI == 0):
+            sumY+=ship[shipI][1]
+            tempX=ship[shipI][0]
+        elif(tempX == ship[shipI][0]):
+            sumY+=ship[shipI][1]
+            tempX=ship[shipI][0]
+            continue
+        else:
+            return False
+    if(sumY%3 == 0):
+        return True
+    else:
+        return False
 
 
 '''
@@ -309,11 +337,8 @@ def runSimulation(w, h):
 
 # This code runs the test cases to check your work
 if __name__ == "__main__":
-    # test.testEmptyGrid()
-    # test.testCreateShip()
-    # test.testCheckShip()
-    # test.testAddShips()
-    #test.testMakeModel()
-    test.week1Tests()
+    #test.week1Tests()
+    test.testIsVertical()
+    test.testIsHorizontal()
     ## Finally, run the simulation to test it manually ##
-    runSimulation(500, 500)
+    #runSimulation(500, 500)
