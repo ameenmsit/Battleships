@@ -31,9 +31,9 @@ def makeModel(data):
     data["cellSize"]=data["boardSize"]//(data["rows"])
     data["numOfShips"]=5
     data["computer"]=emptyGrid(data["rows"],data["cols"])
-    data["user"]=test.testGrid()#emptyGrid(data["rows"],data["cols"])
+    data["user"]=emptyGrid(data["rows"],data["cols"])
     data["computer"]=addShips(data["computer"],data["numOfShips"])
-    data["tempShip"]=test.testShip() #[[]]
+    data["tempShip"]=[]
     data["numOfUserShips"]=0
     return
 
@@ -65,7 +65,10 @@ Parameters: dict mapping strs to values ; mouse event object ; 2D list of ints
 Returns: None
 '''
 def mousePressed(data, event, board):
-    pass
+    pos=getClickedCell(data,event)
+    if("user" == board):
+        clickUserBoard(data,pos[0],pos[1])
+    return
 
 #### WEEK 1 ####
 
@@ -247,12 +250,12 @@ Returns: None
 def placeShip(data):
     if(data["numOfUserShips"] == 5):
         return
-    if(shipIsValid(data["tempShip"])):
+    if(shipIsValid(data["user"],data["tempShip"])):
         for cord in data["tempShip"]:
             data["user"][cord[0]][cord[1]]=SHIP_UNCLICKED
             data["numOfUserShips"]+=1
     else:
-        data["tempShip"]=[[]]
+        data["tempShip"]=[]
         print("Ship is not valid, try again")
     return
 
@@ -383,3 +386,4 @@ if __name__ == "__main__":
     ## Finally, run the simulation to test it manually ##
     runSimulation(500, 500)
     #test.testShipIsValid()
+    #test.week2Tests()
