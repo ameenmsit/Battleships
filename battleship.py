@@ -35,6 +35,7 @@ def makeModel(data):
     data["computer"]=addShips(data["computer"],data["numOfShips"])
     data["tempShip"]=[]
     data["numOfUserShips"]=0
+    data["winner"]=None
     return
 
 
@@ -44,9 +45,10 @@ Parameters: dict mapping strs to values ; Tkinter canvas ; Tkinter canvas
 Returns: None
 '''
 def makeView(data, userCanvas, compCanvas):
-    drawGrid(data,compCanvas,data["computer"],False)
+    drawGrid(data,compCanvas,data["computer"],True)
     drawGrid(data,userCanvas,data["user"],True)
     drawShip(data,userCanvas,data["tempShip"])
+    drawGameOver(data,compCanvas)
 
 
 '''
@@ -64,12 +66,13 @@ Parameters: dict mapping strs to values ; mouse event object ; 2D list of ints
 Returns: None
 '''
 def mousePressed(data, event, board):
-    pos=getClickedCell(data,event)
-    if("user" == board):
-        clickUserBoard(data,pos[0],pos[1])
-    else:
-        if(data["numOfUserShips"] == 5 and board == "comp"):
-            runGameTurn(data,pos[0],pos[1])
+    if(data["winner"] == None):
+        pos=getClickedCell(data,event)
+        if("user" == board):
+            clickUserBoard(data,pos[0],pos[1])
+        else:
+            if(data["numOfUserShips"] == 5 and board == "comp"):
+                runGameTurn(data,pos[0],pos[1])
     
 
 #### WEEK 1 ####
@@ -297,6 +300,9 @@ def updateBoard(data, board, row, col, player):
         board[row][col]=SHIP_CLICKED
     elif(board[row][col] == EMPTY_UNCLICKED):
         board[row][col]=EMPTY_CLICKED
+    if(isGameOver(board)):
+        print(player)
+        data["winner"]=player
     #data["winner"]=player
 
 
@@ -339,7 +345,11 @@ Parameters: 2D list of ints
 Returns: bool
 '''
 def isGameOver(board):
-    return
+    for row in board:
+        for col in row:
+            if(col == SHIP_UNCLICKED):
+                return False
+    return True
 
 
 '''
@@ -348,7 +358,11 @@ Parameters: dict mapping strs to values ; Tkinter canvas
 Returns: None
 '''
 def drawGameOver(data, canvas):
-    return
+    if(data["winner"] == "computer"):
+        canvas.create_text(data["boardSize"]//2, data["boardSize"]//2, text="CONGRADULATIONS... YOU WON!...",fill="yellow",font=("Helvetica", 15))
+
+    elif(data["winner"] == "user"):
+        canvas.create_text(data["boardSize"]//2, data["boardSize"]//2, text="YOU LOSS..",fill="black",font=("Helvetica", 15))
 
 
 ### SIMULATION FRAMEWORK ###
@@ -410,11 +424,12 @@ if __name__ == "__main__":
     # test.testIsHorizontal()
     #test.testDrawGrid()
     #test.testMakeModel()
-    # test.week1Tests()
-    # test.week2Tests()
+    test.week1Tests()
+    test.week2Tests()
     ## Finally, run the simulation to test it manually ##
     runSimulation(500, 500)
     #test.testShipIsValid()
     #test.testAddShips()
     #test.testUpdateBoard()
     #test.testGetComputerGuess()
+    #test.testIsGameOver()
