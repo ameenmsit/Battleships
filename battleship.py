@@ -35,7 +35,7 @@ def makeModel(data):
     data["computer"]=addShips(data["computer"],data["numOfShips"])
     data["tempShip"]=[]
     data["numOfUserShips"]=0
-    data["winner"]="draw"
+    data["winner"]=None
     data["maxTurns"]=50
     data["currentTurns"]=0
     return
@@ -47,7 +47,7 @@ Parameters: dict mapping strs to values ; Tkinter canvas ; Tkinter canvas
 Returns: None
 '''
 def makeView(data, userCanvas, compCanvas):
-    drawGrid(data,compCanvas,data["computer"],True)
+    drawGrid(data,compCanvas,data["computer"],False)
     drawGrid(data,userCanvas,data["user"],True)
     drawShip(data,userCanvas,data["tempShip"])
     drawGameOver(data,compCanvas)
@@ -59,7 +59,8 @@ Parameters: dict mapping strs to values ; key event object
 Returns: None
 '''
 def keyPressed(data, event):
-    pass
+    if(event.keysym == "Return"):
+        makeModel(data)
 
 
 '''
@@ -365,10 +366,13 @@ Returns: None
 def drawGameOver(data, canvas):
     if(data["winner"] == "computer"):
         canvas.create_text(data["boardSize"]//2, data["boardSize"]//2, text="CONGRADULATIONS... YOU WON!...",fill="yellow",font=("Helvetica-Bold", 15))
+        canvas.create_text(data["boardSize"]//2, (data["boardSize"]//2)+20, text="Press Enter to Reset",fill="black",font=("Helvetica-Bold", 12))
     elif(data["winner"] == "user"):
         canvas.create_text(data["boardSize"]//2, data["boardSize"]//2, text="YOU LOSS..",fill="black",font=("Helvetica-Bold", 15))
+        canvas.create_text(data["boardSize"]//2, (data["boardSize"]//2)+20, text="Press Enter to Reset",fill="black",font=("Helvetica-Bold", 12))
     elif(data["winner"] == "draw"):
         canvas.create_text(data["boardSize"]//2, data["boardSize"]//2, text="Sorry..Out of moves!..",fill="green",font=("Helvetica-Bold", 15))
+        canvas.create_text(data["boardSize"]//2, (data["boardSize"]//2)+20, text="Press Enter to Reset",fill="black",font=("Helvetica-Bold", 12))
 
 
 ### SIMULATION FRAMEWORK ###
