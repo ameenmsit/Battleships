@@ -35,7 +35,9 @@ def makeModel(data):
     data["computer"]=addShips(data["computer"],data["numOfShips"])
     data["tempShip"]=[]
     data["numOfUserShips"]=0
-    data["winner"]=None
+    data["winner"]="draw"
+    data["maxTurns"]=50
+    data["currentTurns"]=0
     return
 
 
@@ -319,6 +321,9 @@ def runGameTurn(data, row, col):
         updateBoard(data,data["computer"],row,col,"computer")
         cord=getComputerGuess(data["user"])
         updateBoard(data,data["user"],cord[0],cord[1],"user")
+        data["currentTurns"]+=1
+        if(data["currentTurns"] == data["maxTurns"]):
+            data["winner"]="draw"
 
 
 '''
@@ -359,10 +364,11 @@ Returns: None
 '''
 def drawGameOver(data, canvas):
     if(data["winner"] == "computer"):
-        canvas.create_text(data["boardSize"]//2, data["boardSize"]//2, text="CONGRADULATIONS... YOU WON!...",fill="yellow",font=("Helvetica", 15))
-
+        canvas.create_text(data["boardSize"]//2, data["boardSize"]//2, text="CONGRADULATIONS... YOU WON!...",fill="yellow",font=("Helvetica-Bold", 15))
     elif(data["winner"] == "user"):
-        canvas.create_text(data["boardSize"]//2, data["boardSize"]//2, text="YOU LOSS..",fill="black",font=("Helvetica", 15))
+        canvas.create_text(data["boardSize"]//2, data["boardSize"]//2, text="YOU LOSS..",fill="black",font=("Helvetica-Bold", 15))
+    elif(data["winner"] == "draw"):
+        canvas.create_text(data["boardSize"]//2, data["boardSize"]//2, text="Sorry..Out of moves!..",fill="green",font=("Helvetica-Bold", 15))
 
 
 ### SIMULATION FRAMEWORK ###
